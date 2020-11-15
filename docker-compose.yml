@@ -15,6 +15,9 @@ services:
       - "8080"
     networks: 
       - teastore
+    environment:
+      HOST_NAME: "registry"
+      SERVICE_PORT: "8080"
   db:
     image: descartesresearch/teastore-db
     expose:
@@ -71,6 +74,8 @@ services:
       HOST_NAME: "webui"
       REGISTRY_HOST: "registry"
       SERVICE_PORT: "3000"
+      PROXY_NAME: "proxy"
+      PROXY_PORT: "8080"
     networks: 
       - envoymesh
       - teastore
