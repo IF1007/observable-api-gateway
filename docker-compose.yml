@@ -1,31 +1,33 @@
-version: '3.7'
-services: 
+version: '2'
+
+services:
   proxy:
     image: bitnami/envoy
     volumes: 
       - ./envoy/envoy.yaml:/opt/bitnami/envoy/conf/envoy.yaml
     ports:
-      - "8080:8080"
+      - "8081:8081"
       - "8001:8001"
+    networks:
+      - envoymesh
+  service:
+    image: mendhak/http-https-echo
     networks:
       - envoymesh
   registry:
     image: descartesresearch/teastore-registry
     expose:
       - "8080"
-    networks: 
-      - teastore
-    environment:
-      HOST_NAME: "registry"
-      SERVICE_PORT: "8080"
+    networks:
+      - envoymesh
   db:
     image: descartesresearch/teastore-db
     expose:
       - "3306"
     ports:
       - "3306:3306"
-    networks: 
-      - teastore
+    networks:
+      - envoymesh
   persistence:
     image: descartesresearch/teastore-persistence
     expose:
@@ -35,8 +37,8 @@ services:
       REGISTRY_HOST: "registry"
       DB_HOST: "db"
       DB_PORT: "3306"
-    networks: 
-      - teastore
+    networks:
+      - envoymesh
   auth:
     image: descartesresearch/teastore-auth
     expose:
@@ -44,8 +46,8 @@ services:
     environment:
       HOST_NAME: "auth"
       REGISTRY_HOST: "registry"
-    networks: 
-      - teastore
+    networks:
+      - envoymesh
   image:
     image: descartesresearch/teastore-image
     expose:
@@ -53,8 +55,8 @@ services:
     environment:
       HOST_NAME: "image"
       REGISTRY_HOST: "registry"
-    networks: 
-      - teastore
+    networks:
+      - envoymesh
   recommender:
     image: descartesresearch/teastore-recommender
     expose:
@@ -62,23 +64,18 @@ services:
     environment:
       HOST_NAME: "recommender"
       REGISTRY_HOST: "registry"
-    networks: 
-      - teastore
+    networks:
+      - envoymesh
   webui:
     image: descartesresearch/teastore-webui
-    ports:
-      - "3000:3000"
     expose:
-      - "3000"
+      - "8080"
     environment:
       HOST_NAME: "webui"
       REGISTRY_HOST: "registry"
-      SERVICE_PORT: "3000"
-      PROXY_NAME: "proxy"
-      PROXY_PORT: "8080"
-    networks: 
+    ports:
+      - "8080:8080"
+    networks:
       - envoymesh
-      - teastore
 networks:
   envoymesh: {}
-  teastore: {}
