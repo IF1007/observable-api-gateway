@@ -1,5 +1,4 @@
 version: '2'
-
 services:
   proxy:
     image: bitnami/envoy
@@ -77,5 +76,28 @@ services:
       - "8080:8080"
     networks:
       - envoymesh
+  prometheus:
+    image: prom/prometheus:v2.1.0
+    volumes:
+      - ./prometheus/:/etc/prometheus/
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+    networks:
+      - envoymesh
+    restart: always
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    volumes:
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+      - ./grafana/dashboards/:/var/lib/grafana/dashboards
+    ports:
+      - 3000:3000
+    networks:
+      - envoymesh
+    restart: always
 networks:
   envoymesh: {}
