@@ -1,5 +1,53 @@
 version: '2'
 services:
+  mongo:
+    image: 'mongo'
+    environment: 
+      - MONGO_INITDB_DATABASE=admin
+      - MONGO_INITDB_USERNAME=admin
+      - MONGO_INITDB_PASSWORD=admin
+    volumes:
+      - ./cinema-microservice/mongo-db/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    ports:
+      - '27017-27019:27017-27019'
+    networks: 
+      - envoymesh
+  booking-service:
+    build: ./cinema-microservice/booking-service
+    env_file: ./cinema-microservice/booking-service/env
+    labels:
+        apiRoute: '/booking'
+    networks:
+      - envoymesh
+  cinema-catalog-service:
+    build: ./cinema-microservice/cinema-catalog-service
+    env_file: ./cinema-microservice/cinema-catalog-service/env
+    labels:
+        apiRoute: '/cinemas'
+    networks:
+      - envoymesh
+  movies-service:
+    build: ./cinema-microservice/movies-service
+    labels:
+        apiRoute: '/movies'
+    networks:
+      - envoymesh
+    ports:
+      - '3001:3000'
+  payment-service:
+    build: ./cinema-microservice/payment-service
+    env_file: ./cinema-microservice/payment-service/env
+    labels:
+        apiRoute: '/payment'
+    networks:
+      - envoymesh
+  notification-service:
+    build: ./cinema-microservice/notification-service
+    env_file: ./cinema-microservice/notification-service/env
+    labels:
+        apiRoute: '/notification'
+    networks:
+      - envoymesh
   proxy:
     image: bitnami/envoy
     volumes: 
@@ -7,73 +55,6 @@ services:
     ports:
       - "8081:8081"
       - "8001:8001"
-    networks:
-      - envoymesh
-  service:
-    image: mendhak/http-https-echo
-    networks:
-      - envoymesh
-  registry:
-    image: descartesresearch/teastore-registry
-    expose:
-      - "8080"
-    networks:
-      - envoymesh
-  db:
-    image: descartesresearch/teastore-db
-    expose:
-      - "3306"
-    ports:
-      - "3306:3306"
-    networks:
-      - envoymesh
-  persistence:
-    image: descartesresearch/teastore-persistence
-    expose:
-      - "8080"
-    environment:
-      HOST_NAME: "persistence"
-      REGISTRY_HOST: "registry"
-      DB_HOST: "db"
-      DB_PORT: "3306"
-    networks:
-      - envoymesh
-  auth:
-    image: descartesresearch/teastore-auth
-    expose:
-      - "8080"
-    environment:
-      HOST_NAME: "auth"
-      REGISTRY_HOST: "registry"
-    networks:
-      - envoymesh
-  image:
-    image: descartesresearch/teastore-image
-    expose:
-      - "8080"
-    environment:
-      HOST_NAME: "image"
-      REGISTRY_HOST: "registry"
-    networks:
-      - envoymesh
-  recommender:
-    image: descartesresearch/teastore-recommender
-    expose:
-      - "8080"
-    environment:
-      HOST_NAME: "recommender"
-      REGISTRY_HOST: "registry"
-    networks:
-      - envoymesh
-  webui:
-    image: descartesresearch/teastore-webui
-    expose:
-      - "8080"
-    environment:
-      HOST_NAME: "webui"
-      REGISTRY_HOST: "registry"
-    ports:
-      - "8080:8080"
     networks:
       - envoymesh
   prometheus:
@@ -101,3 +82,5 @@ services:
     restart: always
 networks:
   envoymesh: {}
+volumes: 
+  mongodata:
