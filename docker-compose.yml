@@ -32,8 +32,6 @@ services:
         apiRoute: '/movies'
     networks:
       - envoymesh
-    ports:
-      - '3001:3000'
   payment-service:
     build: ./cinema-microservice/payment-service
     env_file: ./cinema-microservice/payment-service/env

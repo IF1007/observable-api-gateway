@@ -19,22 +19,56 @@ static_resources:
               domains: ["*"]
               routes:
               - match: 
-                  prefix: "/"
+                  prefix: "/booking"
                 route: 
-                  cluster: service
+                  cluster: booking-service
+              - match: 
+                  prefix: "/cinemas"
+                route: 
+                  cluster: cinema-catalog-service
+              - match: 
+                  prefix: "/movies"
+                route: 
+                  cluster: movies-service
           http_filters:
           - name: envoy.router
   clusters:
-  - name: service
+  - name: booking-service
     connect_timeout: 0.25s
     type: strict_dns
     lb_policy: round_robin
     load_assignment:
-      cluster_name: service
+      cluster_name: booking-service
       endpoints:
       - lb_endpoints:
         - endpoint:
             address:
               socket_address:
-                address: webui
-                port_value: 8080
+                address: booking-service
+                port_value: 3000
+  - name: cinema-catalog-service
+    connect_timeout: 0.25s
+    type: strict_dns
+    lb_policy: round_robin
+    load_assignment:
+      cluster_name: cinema-catalog-service
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: cinema-catalog-service
+                port_value: 3000
+  - name: movies-service
+    connect_timeout: 0.25s
+    type: strict_dns
+    lb_policy: round_robin
+    load_assignment:
+      cluster_name: movies-service
+      endpoints:
+      - lb_endpoints:
+        - endpoint:
+            address:
+              socket_address:
+                address: movies-service
+                port_value: 3000
