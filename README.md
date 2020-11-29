@@ -8,12 +8,18 @@ The microservice used as base to our tests was an [exemple of a cinema managemen
 
 This project assumes you have docker installed. To use the setup of this project your microservices must be ready to use an API Gateway, configure the envoy and our dockerfile yamls with their routes and addresses.
 
-## Grafana
+## How To Run
+To set this project up, you only need to execute a `docker-compose up` command on your terminal and let docker works.
 
+#### Grafana
 A Grafana service is automatically built on port 3000. It already contains a standard dashboard with all the detected microservices.
 
-## How To Run
-To set this project up, you only need to execute a `docker compose` command on your terminal and let docker works.
+#### Envoy
+A Envoy service is automatically built on port 8001.
+
+#### Jaegger
+A Jaegger dashboard will be up on port 16686.
+
 
 ### LICENSE
 The MIT License (MIT)
