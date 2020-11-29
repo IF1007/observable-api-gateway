@@ -12,6 +12,9 @@ This project assumes you have docker installed. To use the setup of this project
 
 A Grafana service is automatically built on port 3000. It already contains a standard dashboard with all the detected microservices.
 
+## How To Run
+To set this project up, you only need to execute a `docker compose` command on your terminal and let docker works.
+
 ### LICENSE
 The MIT License (MIT)
 
