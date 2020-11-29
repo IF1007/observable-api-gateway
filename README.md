@@ -4,7 +4,7 @@ This project consists of an API Gateway for a microservices with high observabil
 
 The microservice used as base to our tests was an [exemple of a cinema management ecosystem develop by Cristian Ramirez.](https://github.com/Crizstian/cinema-microservice)
 
-## Prerequisits
+## Prerequisites
 
 This project assumes you have docker installed. To use the setup of this project your microservices must be ready to use an API Gateway, configure the envoy and our dockerfile yamls with their routes and addresses.
 
