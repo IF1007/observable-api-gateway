@@ -16,6 +16,7 @@ A Grafana service is automatically built on port 3000. It already contains a sta
 
 #### Envoy
 A Envoy service is automatically built on port 8001. There you can perform the requests to the API routes.
+Each service has it's own routes, you can check it [here](https://github.com/microservice-2020-3/cinema-microservice/tree/6cdf6ff2f5fb6526b511d3e344e0dff1d768a4f6/raml-spec)
 
 #### Jaegger
 A Jaegger dashboard will be up on port 16686.
