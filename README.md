@@ -9,13 +9,13 @@ The microservice used as base to our tests was an [exemple of a cinema managemen
 This project assumes you have docker installed. To use the setup of this project your microservices must be ready to use an API Gateway, configure the envoy and our dockerfile yamls with their routes and addresses.
 
 ## How To Run
-To set this project up, you only need to execute a `docker-compose up` command on your terminal and let docker works.
+To set this project up, you need to execute a `docker-compose up -d mongo` and, after mongo is up and runnnig, execute `docker-compose up`command on your terminal and let docker works.
 
 #### Grafana
 A Grafana service is automatically built on port 3000. It already contains a standard dashboard with all the detected microservices.
 
 #### Envoy
-A Envoy service is automatically built on port 8001. There you can perform the requests to the API routes.
+A Envoy service is automatically built on port 8081. There you can perform the requests to the API routes.
 Each service has it's own routes, you can check it [here](https://github.com/microservice-2020-3/cinema-microservice/tree/6cdf6ff2f5fb6526b511d3e344e0dff1d768a4f6/raml-spec)
 
 #### Jaegger
