@@ -15,7 +15,7 @@ To set this project up, you only need to execute a `docker-compose up` command o
 A Grafana service is automatically built on port 3000. It already contains a standard dashboard with all the detected microservices.
 
 #### Envoy
-A Envoy service is automatically built on port 8001.
+A Envoy service is automatically built on port 8001. There you can perform the requests to the API routes.
 
 #### Jaegger
 A Jaegger dashboard will be up on port 16686.
